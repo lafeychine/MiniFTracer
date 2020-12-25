@@ -1,0 +1,9 @@
+* [WIP] MiniTracer
+
+A small implementation of a function tracer for amd64 GNU/Linux
+
+** Usage
+~./ftrace <program> [<args>]~
+
+** Features
+[TODO] To complete...
