@@ -28,11 +28,12 @@ static void ftrace_peek_data(pid_t pid, state_t *state)
     state->data.word = ptrace(PTRACE_PEEKTEXT, pid, state->regs.rip, NULL);
 }
 
-int ftrace_loop(ftrace_t *ftrace)
+static int ftrace_process_loop(ftrace_t *ftrace)
 {
     int status;
 
     ptrace(PTRACE_SINGLESTEP, ftrace->child_pid, NULL, NULL);
+
     if (waitpid(ftrace->child_pid, &(status), 0) == -1) {
         perror("Wait pid");
         return (0);
@@ -44,16 +45,13 @@ int ftrace_loop(ftrace_t *ftrace)
     }
 
     ftrace_peek_data(ftrace->child_pid, &(ftrace->state));
-
     return (1);
 }
 
-int ftrace_get_child_signal(ftrace_t *ftrace)
+int ftrace_loop(ftrace_t *ftrace, state_t *state)
 {
-    return (ftrace->state.signal);
-}
+    int rc = ftrace_process_loop(ftrace);
 
-void ftrace_get_opcode_word(ftrace_t *ftrace, byte buffer[WORD_SIZE])
-{
-    memcpy(buffer, &(ftrace->state.data.word), WORD_SIZE);
+    memcpy(state, &(ftrace->state), sizeof(ftrace->state));
+    return (rc);
 }

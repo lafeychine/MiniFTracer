@@ -5,22 +5,25 @@
 #include <sys/wait.h>
 
 void print_child_signal(int status);
-void is_syscall(ftrace_t *ftrace);
+void is_syscall(state_t *state);
 
-static int analyse_step(ftrace_t *ftrace)
+static int analyse_step(state_t *state)
 {
-    is_syscall(ftrace);
+    is_syscall(state);
 
     return (1);
 }
 
 int crawler(ftrace_t *ftrace)
 {
-    while (ftrace_loop(ftrace)) {
-        if (!(analyse_step(ftrace))) {
+    state_t state;
+
+    while (ftrace_loop(ftrace, &(state))) {
+        if (!(analyse_step(&(state)))) {
             return (0);
         }
     }
-    print_child_signal(ftrace_get_child_signal(ftrace));
+
+    print_child_signal(state.signal);
     return (1);
 }

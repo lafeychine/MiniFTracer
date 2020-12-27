@@ -6,17 +6,6 @@
 #include <sys/types.h>
 #include <sys/user.h>
 
-typedef struct state_s state_t;
-
-struct state_s {
-    int signal;
-    struct user_regs_struct regs;
-    union {
-        long word;
-        byte bytes[WORD_SIZE];
-    } data;
-};
-
 struct ftrace_s {
     int binary_fd;
 

@@ -1,5 +1,6 @@
 #include "ftrace.h"
 
+#include <errno.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,10 +15,12 @@ static int ftrace_tracee(int binary_fd, char *argv[], char *arge[])
         perror("Trace the tracee");
         return (1);
     }
-    raise(SIGSTOP);
+    kill(getpid(), SIGSTOP);
+
     fexecve(binary_fd, argv, arge);
-    perror("Execute the tracee");
-    return (1);
+
+    /* TODO: Display fexecve error */
+    exit(1);
 }
 
 int ftrace_fork(ftrace_t *ftrace, crawler_fptr crawler, char *argv[], char *arge[])
