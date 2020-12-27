@@ -24,5 +24,5 @@ _start:
 
 SECTION .rodata                 ; [Read-only data section]
 
-str: DB 'Hello World', 10, 0    ; String ‘Hello world’
+str: DB 'Hello World', 10       ; String ‘Hello world’
 len_str EQU $ - str             ; Length of the string
