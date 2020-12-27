@@ -17,3 +17,8 @@ build
 *.o
 *.a
 *.out
+
+
+# IDE
+.cache
+.vscode
