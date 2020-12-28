@@ -12,11 +12,11 @@ target_link_libraries(ftrace elf trace)
 
 
 # Syscall generators
-function (generate_syscall _targetName)
-  add_custom_command(OUTPUT src/db/${_targetName}.c
-                     COMMAND Python3::Interpreter ${CMAKE_CURRENT_SOURCE_DIR}/scripts/generate_sys_tables.py --input ${CMAKE_CURRENT_SOURCE_DIR}/scripts/${_targetName}.data --output src/db/${_targetName}.c --table_name ${_targetName})
+function (generate_syscall _targetName _outputFile)
+  add_custom_command(OUTPUT src/db/${_outputFile}.c
+                     COMMAND Python3::Interpreter ${CMAKE_CURRENT_SOURCE_DIR}/scripts/generate_sys_tables.py --file ${_targetName} --output src/db/${_outputFile}.c --table_name ${_outputFile})
 endfunction()
 
-generate_syscall(sys_interrupt_table)
-generate_syscall(sys_syscall_table)
+generate_syscall("x86_64~syscallent" "sys_interrupt_table")
+generate_syscall("64~syscallent" "sys_syscall_table")
 

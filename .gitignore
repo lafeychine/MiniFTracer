@@ -22,3 +22,7 @@ build
 # IDE
 .cache
 .vscode
+
+
+# STrace files
+*.data
