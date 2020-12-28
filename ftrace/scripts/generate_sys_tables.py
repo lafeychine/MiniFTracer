@@ -33,11 +33,7 @@ def main():
 
 def parse_args():
     parser = ArgumentParser()
-    parser.add_argument(
-        "--file",
-        required=True,
-        choices=["x86_64~syscallent", "64~syscallent"],
-    )
+    parser.add_argument("--file", required=True)
     parser.add_argument("--refetch", action="store_true")
     parser.add_argument("--output", required=True)
     parser.add_argument("--table_name", required=True)
@@ -86,7 +82,7 @@ def transform_file(inputPath, outputStream, refetch):
 def transform_line(line):
     line_begin = line.find("{") + 1
 
-    if not (line[0] == "[" and line_begin != 0):
+    if not (line[0] == "[" and line.count(",") == 4):
         return line[:-1]
 
     contents = line[line_begin:-3]

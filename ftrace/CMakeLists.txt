@@ -17,6 +17,5 @@ function (generate_syscall _targetName _outputFile)
                      COMMAND Python3::Interpreter ${CMAKE_CURRENT_SOURCE_DIR}/scripts/generate_sys_tables.py --file ${_targetName} --output src/db/${_outputFile}.c --table_name ${_outputFile})
 endfunction()
 
-generate_syscall("x86_64~syscallent" "sys_interrupt_table")
-generate_syscall("64~syscallent" "sys_syscall_table")
-
+generate_syscall("i386~syscallent" "sys_interrupt_table")
+generate_syscall("x86_64~syscallent" "sys_syscall_table")
